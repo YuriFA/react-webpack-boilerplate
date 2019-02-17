@@ -1,3 +1,8 @@
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+
+const env = process.env.NODE_ENV
+const isDevMode = env !== 'production'
+
 module.exports = [
   {
     test: /\.js$/,
@@ -5,15 +10,23 @@ module.exports = [
     loader: 'babel-loader',
   },
   {
+    test: /\.(ttf|eot|woff|woff2)$/,
+    use: {
+      loader: 'url-loader',
+      options: {
+        limit: 50000, // 50kb
+        name: '[name].[ext]',
+      },
+    },
+  },
+  {
     test: /\.sss$/,
     use: [
+      isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
       {
-        loader: 'style-loader', // creates style nodes from JS strings
-      },
-      {
-        loader: 'css-loader', // translates CSS into CommonJS
+        loader: 'css-loader',
         options: {
-          modules: true, // modules with classnames
+          modules: true,
           importLoaders: 1,
           localIdentName: '[name]-[local]--[hash:base64:5]',
         },

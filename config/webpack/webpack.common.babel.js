@@ -1,5 +1,6 @@
 import webpack from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import Dotenv from 'dotenv-webpack'
 
 import alias from './alias'
 import paths from './paths'
@@ -23,8 +24,8 @@ module.exports = {
   //   assetFilter: assetFilename =>
   //     assetFilename.endsWith('.css') || assetFilename.endsWith('.js'),
   // },
-  // externals: ['react'],
   plugins: [
+    new Dotenv(),
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       template: paths.template,
